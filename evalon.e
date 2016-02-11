@@ -31,4 +31,4 @@ skeleton = [
 bat.bat = '@start.\n@gvim -p '+files/' '
 
 next = dir@'next' + skeleton
-next = [ next bat.bat ]
+#next = [ next bat.bat ]
