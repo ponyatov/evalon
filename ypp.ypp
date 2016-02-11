@@ -2,10 +2,26 @@
 #include "hpp.hpp"
 %}
 %defines %union { Sym*o; }
-%token <o> SYM
-%type <o> ex scalar
+%token <o> SYM						/* scalars: symbol */
+%token <o> L R LQ RQ LB RB			/* brackets: ( ) [ ] { } */
+%token <o> EQ COLON					/* operators: = : */
+%type <o> ex scalar list lambda		/* expression scalar [list] {la:mbda} */
+
+%left EQ
+%left COLON
 %%
-REPL : | REPL ex { W($2) } ;
-scalar : SYM ;
-ex : scalar ;
+REPL	: | REPL ex		{ W($2->eval()); W("\n"); } ;
+scalar	: SYM ;
+ex		: scalar 
+		| LQ list RQ	{ $$=$2; }
+		| LB lambda RB	{ $$=$2; }
+		| ex EQ ex		{ $$=$2; $$->push($1); $$->push($3); }
+		| ex COLON ex	{ $$=$2; $$->push($1); $$->push($3); }
+;
+list	:				{ $$=new List(); }
+		| list ex		{ $$=$1; $$->push($2); }
+;
+lambda	:				{ $$=new Lambda(); }
+		| lambda ex		{ $$=$1; $$->push($2); }
+;
 %%

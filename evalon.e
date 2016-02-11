@@ -1,5 +1,7 @@
 
-.gitignore = [
+# comment
+
+.gitignore:file = [
 *~
 *.swp
 *.exe

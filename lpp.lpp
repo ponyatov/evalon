@@ -4,14 +4,20 @@
 %option noyywrap
 %option yylineno
 %%
-[a-zA-Z0-9_.\?\*\~]+	TOC(SYM)
+#[^\n]*					{}
 
-\[					TOC(SYM)
-\]					TOC(SYM)
+[a-zA-Z0-9_.\?\*\~]+	TOC(Sym,SYM)
 
-\=					TOC(SYM)
+\(						TOC(Op,L)
+\)						TOC(Op,R)
+\[						TOC(Op,LQ)
+\]						TOC(Op,RQ)
+\{						TOC(Op,LB)
+\}						TOC(Op,RB)
 
+\=						TOC(opEq,EQ)
+\:						TOC(opColon,COLON)
 
-[ \t\r\n]+	{}
-.			{}
+[ \t\r\n]+				{}
+.						{}
 %%
