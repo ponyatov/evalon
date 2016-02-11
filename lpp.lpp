@@ -1,0 +1,17 @@
+%{
+#include "hpp.hpp"
+%}
+%option noyywrap
+%option yylineno
+%%
+[a-zA-Z0-9_.\?\*\~]+	TOC(SYM)
+
+\[					TOC(SYM)
+\]					TOC(SYM)
+
+\=					TOC(SYM)
+
+
+[ \t\r\n]+	{}
+.			{}
+%%
